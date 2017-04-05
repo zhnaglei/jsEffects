@@ -58,8 +58,8 @@
     </style>
     <script type="text/javascript">
         function animate(obj,target){
-            clearInterval(obj.timer);  // 先清除定时器
-            var speed = obj.offsetLeft < target ? 15 : -15;  // 用来判断 应该 +  还是 -
+            clearInterval(obj.timer);
+            var speed = obj.offsetLeft < target ? 15 : -15;
             obj.timer = setInterval(function() {
                 var result = target - obj.offsetLeft; //
                 obj.style.left = obj.offsetLeft + speed + "px";
@@ -71,7 +71,7 @@
             },10)
         }
         window.onload = function() {
-            var box = document.getElementById("all");  // 大盒子
+            var box = document.getElementById("all");
             var ul = document.getElementById("ul");
             var ulLis = ul.children;
 
@@ -81,13 +81,13 @@
 
             // 创建ol
             console.log(ulLis.length);
-            var ol = document.createElement("ol");  // 生成的是ol
-            box.appendChild(ol); // 把ol 追加到  box 里面
+            var ol = document.createElement("ol");
+            box.appendChild(ol);
             for(var i=0;i<ulLis.length-1;i++)
             {
                 var li = document.createElement("li");
-                li.innerHTML = i + 1;  //  给里面小的li 文字  1 2 3 4 5
-                ol.appendChild(li);  // 添加到 ol 里面
+                li.innerHTML = i + 1;
+                ol.appendChild(li);
             }
             ol.children[0].className = "current";
 
