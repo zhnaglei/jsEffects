@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <style type="text/css">
+        *{
+            padding:0;
+            margin:0;
+            list-style:none;
+            border:0;
+        }
+        .all{
+            width:500px;
+            height:200px;
+            padding:7px;
+            border:1px solid #ccc;
+            margin:100px auto;
+            position:relative;
+        }
+        .screen{
+            width:500px;
+            height:200px;
+            overflow:hidden;
+            position:relative;
+        }
+
+        .screen li{
+            width:500px;
+            height:200px;
+            overflow:hidden;
+            float:left;
+        }
+        .screen ul{
+            position:absolute;
+            left:0;
+            top:0px;
+            width:3000px;
+        }
+        .all ol{
+            position:absolute;
+            right:10px;
+            bottom:10px;
+            line-height:20px;
+            text-align:center;
+        }
+        .all ol li{
+            float:left;
+            width:20px;
+            height:20px;
+            background:#fff;
+            border:1px solid #ccc;
+            margin-left:10px;
+            cursor:pointer;}
+        .all ol li.current{
+            background:yellow;
+        }
+    </style>
+    <script type="text/javascript">
+        function animate(obj,target){
+            clearInterval(obj.timer);  // 先清除定时器
+            var speed = obj.offsetLeft < target ? 15 : -15;  // 用来判断 应该 +  还是 -
+            obj.timer = setInterval(function() {
+                var result = target - obj.offsetLeft; //
+                obj.style.left = obj.offsetLeft + speed + "px";
+                if(Math.abs(result)<=15)
+                {
+                    clearInterval(obj.timer);
+                    obj.style.left = target + "px";
+                }
+            },10)
+        }
+        window.onload = function() {
+            var box = document.getElementById("all");  // 大盒子
+            var ul = document.getElementById("ul");
+            var ulLis = ul.children;
+
+            // 操作元素
+            // 克隆
+            ul.appendChild(ul.children[0].cloneNode(true));
+
+            // 创建ol
+            console.log(ulLis.length);
+            var ol = document.createElement("ol");  // 生成的是ol
+            box.appendChild(ol); // 把ol 追加到  box 里面
+            for(var i=0;i<ulLis.length-1;i++)
+            {
+                var li = document.createElement("li");
+                li.innerHTML = i + 1;  //  给里面小的li 文字  1 2 3 4 5
+                ol.appendChild(li);  // 添加到 ol 里面
+            }
+            ol.children[0].className = "current";
+
+            //动画
+            var olLis = ol.children;
+            for(var i=0; i<olLis.length;i++)
+            {
+                olLis[i].index = i;
+                olLis[i].onmouseover = function() {
+                    for(var j=0;j<olLis.length;j++)
+                    {
+                        olLis[j].className = "";
+                    }
+                    this.className = "current";
+                    animate(ul,-this.index*500);
+                    square = key = this.index;
+                }
+            }
+            //添加定时器
+            var timer = null;
+            var key = 0;
+            var square = 0;
+            timer = setInterval(autoplay,1000);
+            function autoplay() {
+                key++;
+                if(key>ulLis.length - 1)
+                {
+                    ul.style.left = 0;
+                    key = 1;
+                }
+                animate(ul,-key*500);
+                square++;
+                if(square > olLis.length -1)
+                {
+                    square = 0;
+                }
+                for(var i=0;i<olLis.length;i++)
+                {
+                    olLis[i].className = "";
+                }
+                olLis[square].className = "current";
+            }
+
+            box.onmouseover = function() {
+                clearInterval(timer);
+            };
+            box.onmouseout = function() {
+                timer = setInterval(autoplay,1000);
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="all" id="all">
+    <div class="screen">
+        <ul id="ul">
+            <li><img src="./images/1.jpg" alt=""></li>
+            <li><img src="./images/2.jpg" alt=""></li>
+            <li><img src="./images/3.jpg" alt=""></li>
+            <li><img src="./images/4.jpg" alt=""></li>
+            <li><img src="./images/5.jpg" alt=""></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

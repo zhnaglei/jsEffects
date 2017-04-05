@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>点击跟随鼠标</title>
+    <style type="text/css">
+        #img{
+            width: 99px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+</head>
+<body>
+<img src="./img.jpg" alt="" id="img">
+</body>
+</html>
+<script type="text/javascript">
+    var img=document.getElementById('img');
+    document.onclick=function (event) {
+        var event=event||window.event;
+        targetX=event.clientX-img.offsetWidth/2;
+        targetY=event.clientX-img.offsetHeight/2;
+
+    };
+
+    var leaderX=0;
+    var leaderY=0;
+    var targetX=0;
+    var targetY=0;
+    setInterval(function () {
+        leaderX=leaderX+(targetX-leaderX)/10;
+        leaderY=leaderY+(targetY-leaderY)/10;
+        img.style.left=leaderX+'px';
+        img.style.top=leaderY+'px';
+    },10);
+</script>
