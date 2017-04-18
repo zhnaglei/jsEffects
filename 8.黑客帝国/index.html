@@ -1,0 +1,82 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>黑客帝国实现</title>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<style>
+  html,body {
+	width:100%;
+	height:100%;
+	padding:0;
+	margin:0;
+}
+.canvas {
+	width:100%;
+	height:100%;
+	background:#000;
+	padding:0;
+	margin:0;
+	font-size:0;
+}
+</style>
+</head>
+<body>
+<canvas id="canvas" class="canvas"></canvas><script>
+ var canvas = document.getElementById("canvas");
+ canvas.width = window.innerWidth;
+ canvas.height = window.innerHeight;
+ var context = canvas.getContext('2d');
+ var man = Math.ceil(window.innerHeight / 18);
+ var lw = Math.ceil(window.innerWidth / 13);
+ var row = new Array(lw),
+     position = new Array(lw);
+ for (var i = 0; i < lw; i++) {
+     row[i] = 0;
+     position[i] = Math.ceil(Math.random() * man * 2);
+ }
+ var bj = 0,
+     hgh = 0;
+ setInterval(function() {
+     showText(context);
+ }, 20);
+ /*
+  *显示字母
+  * */
+ function showText(ctx) {
+     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+     ctx.font = "16px Arial";
+     for (var k = 0; k < lw; k++) {
+         if (bj >= position[k]) {
+             var wz = row[k] - 14 * man;
+             var ls = row[k];
+             if (wz < window.innerHeight + 2) {
+                 for (var j = 0; j < man; j++) {
+                     //col[j]=col[j]+14;
+                     ls -= 14;
+                     if (ls < 0) {
+                         break;
+                     }
+                     ctx.fillStyle = 'green';
+                     ctx.fillText(getchar(), k * 14, ls);
+                 }
+                 row[k] += 14;
+             } else {
+                 row[k] = 0;
+             } //输出完毕
+         } //可以更新的元素
+     }
+     if (bj < man * 2) {
+         bj++;
+     }
+ }
+ /*
+  * 产生字符
+  * */
+ function getchar() {
+     return String.fromCharCode(65 + Math.ceil(Math.random() * 57));
+ }
+ 
+ </script>
+</body>
+</html>
